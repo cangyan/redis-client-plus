@@ -16,7 +16,7 @@ before_script:
   - travis_retry composer install --no-interaction --prefer-source --dev
 
 script:
-  - phpunit --coverage-text
+  - vendor/bin/phpunit --coverage-text
 
 notifications:
   slack: huuinn:wXZ9PIZxjtHa5O9St4OxfzYj
