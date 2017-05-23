@@ -8,12 +8,16 @@ php:
   - 7.1
   - hhvm
 
+services:
+  - redis-server
+
 matrix:
     allow_failures:
 
 before_script:
   - travis_retry composer self-update
   - travis_retry composer install --no-interaction --prefer-source --dev
+  - sudo redis-server /etc/redis/redis.conf --port 12701
 
 script:
   - vendor/bin/phpunit --coverage-text
