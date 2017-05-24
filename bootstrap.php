@@ -23,6 +23,8 @@ $app->withFacades();
 
 $app->withEloquent();
 
+$app->configure('database');
+
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings
@@ -43,6 +45,10 @@ $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
     Laravel\Lumen\Exceptions\Handler::class
 );
+
+if (class_exists(\Illuminate\Redis\RedisServiceProvider::class)) {
+    $app->register(\Illuminate\Redis\RedisServiceProvider::class);
+}
 
 /*
 |--------------------------------------------------------------------------

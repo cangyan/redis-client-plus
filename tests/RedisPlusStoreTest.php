@@ -15,46 +15,39 @@ class RedisPlusStoreTest extends AbstractTestCase
 
     public function testMany()
     {
-        $this->assertEquals(1,1);
-    }
-
-    public function testPut()
-    {
-        $this->assertEquals(1,1);
-    }
-
-    public function testPutMany()
-    {
-        $this->assertEquals(1,1);
+        $client = new RedisPlusStore();
+        $client->putMany(['testGet1' => 11, 'testGet2' => 22], 1);
+        $this->assertEquals($client->many(['testGet1','testGet2']), ['testGet1' => 11, 'testGet2' => 22]);
     }
 
     public function testIncrement()
     {
-        $this->assertEquals(1,1);
-    }
+        $client = new RedisPlusStore();
+        $client->flush();
+        $client->increment('count');
+        $client->increment('count');
+        $client->increment('count');
+        $client->decrement('count', 2);
+        
+        $this->assertEquals($client->get('count'), 1);
 
-    public function testDecrement()
-    {
-        $this->assertEquals(1,1);
+        $client->increment('count', 3);
+        $client->decrement('count', 1);
+        $this->assertEquals($client->get('count'), 3);
     }
 
     public function tesForever()
     {
-        $this->assertEquals(1,1);
-    }
-    
-    public function testForget()
-    {
-        
-    }
-
-    public function testFlush()
-    {
-        $this->assertEquals(1,1);
+        $client = new RedisPlusStore();
+        $client->forever('pi', '3.14');
+        $this->assertEquals($client->get('pi'), '3.14');
+        $client->forget('pi');
+        $this->assertEquals($client->get('pi'), null);
     }
 
     public function testGetPrefix()
     {
-        $this->assertEquals(1,1);
+        $client = new RedisPlusStore();
+        $this->assertEquals($client->getPrefix(), null);
     }
 }
